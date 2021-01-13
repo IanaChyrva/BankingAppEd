@@ -118,3 +118,32 @@ const handleHover = function (e) {
 nav.addEventListener('mouseover', handleHover.bind(0.5));
 
 nav.addEventListener('mouseout', handleHover.bind(1));
+
+// Sticky Navigation
+// const initialCoords = section1.getBoundingClientRect();
+
+// window.addEventListener('scroll', function (e) {
+//   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
+
+////////////////////////////////////////////////////////////////////////////////
+// Intersection Observer API
+
+// const navHeight = window.getComputedStyle(nav).height;
+const navHeight = nav.getBoundingClientRect().height + 'px';
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+
+  entry.isIntersecting === false
+    ? nav.classList.add('sticky')
+    : nav.classList.remove('sticky');
+};
+const header = document.querySelector('.header');
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `${navHeight}`,
+});
+headerObserver.observe(header);
